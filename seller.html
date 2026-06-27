@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Seller Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>👨‍🌾 Seller Login</h2>
+
+<input id="phone" placeholder="Phone"><br>
+<input id="password" type="password" placeholder="Password"><br>
+
+<button onclick="loginSeller()">Login</button>
+
+<p><a href="seller-register.html">New Seller? Register</a></p>
+
+<script>
+function loginSeller(){
+
+    let phone = document.getElementById("phone").value;
+    let password = document.getElementById("password").value;
+
+    let sellers = JSON.parse(localStorage.getItem("sellers")) || [];
+
+    let seller = sellers.find(s => s.phone === phone);
+
+    if(!seller){
+        alert("Not Registered");
+        return;
+    }
+
+    if(seller.password !== password){
+        alert("Wrong Password");
+        return;
+    }
+
+    alert("Login Success ✔ " + seller.name);
+    window.location.href = "seller-dashboard.html";
+}
+</script>
+
+</body>
+</html>

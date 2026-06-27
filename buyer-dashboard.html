@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buyer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>🛒 Buyer Dashboard</h2>
+<p>Find fresh millets directly from farmers</p>
+
+<input type="text" id="search" placeholder="Search millet..."><br><br>
+
+<button onclick="searchMillet()">Search</button>
+
+<hr>
+
+<div id="container"></div>
+
+<script>
+let millets = [
+    {name:"Ragi", price:40, location:"Salem"},
+    {name:"Bajra", price:35, location:"Erode"},
+    {name:"Foxtail Millet", price:60, location:"Namakkal"},
+    {name:"Little Millet", price:55, location:"Dharmapuri"}
+];
+
+// display cards
+function display(list){
+    let box = document.getElementById("container");
+    box.innerHTML = "";
+
+    list.forEach(m => {
+        let card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>🌾${m.name}</h3>
+            <p>💰Price: ₹${m.price}/kg</p>
+            <p>📍Location: ${m.location}</p>
+            <button onclick="contactSeller('${m.name}')">
+                Contact Seller
+            </button>
+        `;
+
+        box.appendChild(card);
+    });
+}
+
+// search function
+function searchMillet(){
+    let value = document.getElementById("search").value.toLowerCase();
+
+    let filtered = millets.filter(m =>
+        m.name.toLowerCase().includes(value)
+    );
+
+    display(filtered);
+}
+  function load(){
+
+    let data = JSON.parse(localStorage.getItem("millets")) || [];
+
+    let box = document.getElementById("container");
+    box.innerHTML = "";
+
+    data.forEach(m => {
+
+        let card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>🌾 ${m.name}</h3>
+            <p>🌱 ${m.variety}</p>
+            <p>📦 ${m.quantity} kg</p>
+            <p>💰 ₹${m.price}</p>
+            <p>📍 ${m.location}</p>
+        `;
+
+        box.appendChild(card);
+    });
+}
+
+window.onload = load;
+
+// contact button
+function contactSeller(name){
+    alert("Contact request sent for " + name);
+}
+
+// initial load
+display(millets);
+</script>
+
+</body>
+</html>

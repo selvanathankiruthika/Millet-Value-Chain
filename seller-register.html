@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Seller Register</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+    text-align:center;
+    background:#e8f5e9;
+}
+
+.box{
+    background:white;
+    width:90%;
+    max-width:350px;
+    margin:80px auto;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0px 5px 15px rgba(0,0,0,0.2);
+}
+
+input{
+    width:80%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+button{
+    background:#2e7d32;
+    color:white;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="box">
+
+<h2>👨‍🌾 Seller Register</h2>
+
+<input id="name" placeholder="Name"><br>
+<input id="phone" placeholder="Phone"><br>
+<input id="password" type="password" placeholder="Password"><br>
+
+<button onclick="registerSeller()">Register</button>
+
+<p>
+Already have account? <a href="seller.html">Login</a>
+</p>
+
+</div>
+
+<script>
+
+function registerSeller(){
+
+    let name = document.getElementById("name").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    if(name === "" || phone === "" || password === ""){
+        alert("⚠ Please fill all fields!");
+        return;
+    }
+
+    let sellers = JSON.parse(localStorage.getItem("sellers")) || [];
+
+    let exists = sellers.find(s => s.phone === phone);
+
+    if(exists){
+        alert(" Seller already registered!");
+        return;
+    }
+
+    sellers.push({name, phone, password});
+
+    localStorage.setItem("sellers", JSON.stringify(sellers));
+
+    alert("Registration Successful!");
+    window.location.href = "seller.html";
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Seller Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>👨‍🌾 Seller Dashboard</h2>
+
+<input id="name" placeholder="Millet Name"><br>
+<input id="variety" placeholder="Variety"><br>
+<input id="quantity" placeholder="Quantity (kg)"><br>
+<input id="price" placeholder="Price per kg"><br>
+<input id="location" placeholder="Location"><br>
+
+<button onclick="addMillet()">Add Millet</button>
+
+<h3>My Millets</h3>
+<ul id="milletList"></ul>
+
+<script>
+
+function loadMillets(){
+    let list = document.getElementById("milletList");
+    list.innerHTML = "";
+
+    let data = JSON.parse(localStorage.getItem("millets")) || [];
+
+    data.forEach((m,index)=>{
+        let li = document.createElement("li");
+
+        li.innerHTML =
+        "🌾 " + m.name +
+        " | 🌱 " + m.variety +
+        " | 📦 " + m.quantity + "kg" +
+        " | 💰 ₹" + m.price +
+        " | 📍 " + m.location +
+        " <button onclick='deleteMillet("+index+")'>Delete</button>";
+
+        list.appendChild(li);
+    });
+}
+
+function addMillet(){
+
+    let name = document.getElementById("name").value.trim();
+    let variety = document.getElementById("variety").value.trim();
+    let quantity = document.getElementById("quantity").value.trim();
+    let price = document.getElementById("price").value.trim();
+    let location = document.getElementById("location").value.trim();
+
+    // VALIDATION
+    if(name === "" || variety === "" || quantity === "" || price === "" || location === ""){
+        alert("⚠ Please fill all fields before adding millet!");
+        return;
+    }
+
+    let data = JSON.parse(localStorage.getItem("millets")) || [];
+
+    data.push({
+        name,
+        variety,
+        quantity,
+        price,
+        location
+    });
+
+    localStorage.setItem("millets", JSON.stringify(data));
+
+    loadMillets();
+
+    // clear inputs
+    document.getElementById("name").value = "";
+    document.getElementById("variety").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("location").value = "";
+}
+
+function deleteMillet(index){
+
+    let data = JSON.parse(localStorage.getItem("millets")) || [];
+
+    data.splice(index,1);
+
+    localStorage.setItem("millets", JSON.stringify(data));
+
+    loadMillets();
+}
+
+window.onload = loadMillets;
+
+</script>
+
+</body>
+</html>

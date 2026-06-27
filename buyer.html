@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Buyer Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>🛒 Buyer Login</h2>
+
+<input id="phone" placeholder="Phone"><br>
+<input id="password" type="password" placeholder="Password"><br>
+
+<button onclick="loginBuyer()">Login</button>
+  <p style="margin-top:15px;">
+New user? <a href="buyer-register.html">Register here</a>
+  </p>
+
+<script>
+function loginBuyer(){
+
+    let buyers = JSON.parse(localStorage.getItem("buyers")) || [];
+
+    let buyer = buyers.find(b => b.phone === phone.value);
+
+    if(!buyer){
+        alert("Not Registered");
+        return;
+    }
+
+    if(buyer.password !== password.value){
+        alert("Wrong Password");
+        return;
+    }
+
+    alert("Welcome " + buyer.name);
+    window.location.href = "buyer-dashboard.html";
+}
+</script>
+
+</body>
+</html>
